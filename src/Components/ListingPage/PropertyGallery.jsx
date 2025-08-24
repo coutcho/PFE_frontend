@@ -51,9 +51,7 @@ export default function PropertyGallery() {
         const imagePaths = Array.isArray(property.images_path)
           ? property.images_path
           : JSON.parse(property.images_path || "[]");
-        const fullImageUrls = imagePaths.map(
-          (path) => `${BASE_URL.replace("/api", "")}${path}`
-        );
+        const fullImageUrls = imagePaths;
 
         setImages(fullImageUrls);
       } catch (err) {
