@@ -22,7 +22,7 @@ const getImageUrl = (pathOrUrl) => {
 };
 const PropertyCard = ({ property, onClick }) => {
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
-
+  console.log("Property images_path:", property.images_path);
   if (!property) {
     return <div>Loading property...</div>;
   }
@@ -30,6 +30,8 @@ const PropertyCard = ({ property, onClick }) => {
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
     console.log("Favorite button clicked for property:", property.id);
+    console.log("Property images_path:", property.images_path);
+
     if (isFavorite(property.id)) {
       removeFavorite(property.id);
     } else {
