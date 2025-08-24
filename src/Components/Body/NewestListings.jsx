@@ -189,6 +189,9 @@ const NewestListings = () => {
   if (properties.length === 0) {
     return (
       <div className="container py-5 text-center">
+        <div className="d-flex justify-content-center align-items-center mb-4">
+          <h2>Nouvelles Annonces</h2>
+        </div>
         <p>No newest listings available at the moment.</p>
       </div>
     );

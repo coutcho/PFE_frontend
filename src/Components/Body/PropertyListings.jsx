@@ -162,6 +162,9 @@ const PropertyListings = () => {
   if (properties.length === 0) {
     return (
       <div className="container py-5 text-center">
+        <div className="d-flex justify-content-center align-items-center mb-4">
+          <h2>Les Plus Populaires</h2>
+        </div>
         <p>No properties available at the moment.</p>
       </div>
     );
