@@ -7,6 +7,13 @@ import "./styles.css";
 import { useNavigate } from "react-router-dom";
 const apiBase = import.meta.env.VITE_API_URL;
 const apiFront = import.meta.env.VITE_FRONTEND_URL;
+const getImageUrl = (path) => {
+  if (!path) return "https://via.placeholder.com/200x150";
+  return `${
+    import.meta.env.VITE_SUPABASE_URL
+  }/storage/v1/object/public/property_images/${path}`;
+};
+
 // Utility function for authenticated API calls
 const fetchWithAuth = async (url, options = {}) => {
   const token = localStorage.getItem("authToken");
@@ -53,7 +60,7 @@ const PropertyCard = ({ property, onClick }) => {
     property.images_path &&
     Array.isArray(property.images_path) &&
     property.images_path.length > 0
-      ? `${apiBase}/${property.images_path[0]}`
+      ? getImageUrl(property.images_path[0])
       : "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800";
 
   return (
@@ -190,7 +197,7 @@ const PendingListingsCarousel = ({
     currentListing.images_path &&
     Array.isArray(currentListing.images_path) &&
     currentListing.images_path.length > 0
-      ? `${apiBase}/${currentListing.images_path[0]}`
+      ? getImageUrl(currentListing.images_path[0])
       : "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800";
 
   const handleStatusUpdate = async (propertyId, newStatus) => {

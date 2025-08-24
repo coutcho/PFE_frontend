@@ -10,6 +10,13 @@ import {
 } from "react-icons/fa";
 import { useFavorites } from "./FavoritesContext.jsx";
 const apiBase = import.meta.env.VITE_API_URL;
+const getImageUrl = (path) => {
+  if (!path) return "https://via.placeholder.com/200x150";
+  return `${
+    import.meta.env.VITE_SUPABASE_URL
+  }/storage/v1/object/public/property-images/${path}`;
+};
+
 const PropertyCard = ({ property, onClick }) => {
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
 
@@ -40,7 +47,7 @@ const PropertyCard = ({ property, onClick }) => {
     property.images_path &&
     Array.isArray(property.images_path) &&
     property.images_path.length > 0
-      ? `${apiBase.replace("/api", "")}${property.images_path[0]}`
+      ? getImageUrl(property.images_path[0])
       : "https://via.placeholder.com/800";
 
   const toTitleCase = (str) => {

@@ -4,6 +4,13 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useNavigate } from "react-router-dom"; // Add this if using react-router-dom
 const apiBase = import.meta.env.VITE_API_URL;
+const getImageUrl = (path) => {
+  if (!path) return "https://via.placeholder.com/200x150";
+  return `${
+    import.meta.env.VITE_SUPABASE_URL
+  }/storage/v1/object/public/property-images/${path}`;
+};
+
 // Define icons (unchanged)
 const defaultIcon = L.icon({
   iconUrl:
@@ -93,7 +100,7 @@ const AllMap = ({ properties, selectedProperty }) => {
               <img
                 src={
                   property.images_path && property.images_path.length > 0
-                    ? `${apiBase.replace("/api", "")}${property.images_path[0]}`
+                    ? getImageUrl(property.images_path[0])
                     : "https://via.placeholder.com/200x150"
                 }
                 alt={property.title || "Property Image"}

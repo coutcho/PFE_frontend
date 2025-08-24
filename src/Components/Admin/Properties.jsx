@@ -8,6 +8,7 @@ import {
   FaFilter,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { supabase } from "../supabase.js";
 
 function Properties() {
   const [properties, setProperties] = useState([]);
@@ -40,6 +41,14 @@ function Properties() {
     Pending: "Sold",
     Sold: "For Rent",
     "For Rent": "Active",
+  };
+
+  const getSupabaseImageUrl = (path) => {
+    if (!path) return "https://via.placeholder.com/200x150";
+
+    // Replace 'property-images' with your actual bucket name
+    return supabase.storage.from("property_images").getPublicUrl(path)
+      .publicURL;
   };
 
   // 获取状态类名
@@ -225,7 +234,7 @@ function Properties() {
     if (property.images_path && Array.isArray(property.images_path)) {
       const existingImagePreviews = property.images_path.map((img, index) => ({
         id: `existing-${index}`,
-        url: `${baseUrl}${img}`,
+        url: getSupabaseImageUrl(img),
         isExisting: true,
         name: `Image ${index + 1}`,
       }));
