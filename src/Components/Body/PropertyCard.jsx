@@ -40,7 +40,7 @@ const PropertyCard = ({ property, onClick }) => {
     property.images_path &&
     Array.isArray(property.images_path) &&
     property.images_path.length > 0
-      ? `${apiBase}/${property.images_path[0]}`
+      ? `${apiBase.replace("/api", "")}${property.images_path[0]}`
       : "https://via.placeholder.com/800";
 
   const toTitleCase = (str) => {

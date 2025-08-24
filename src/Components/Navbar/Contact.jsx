@@ -1,10 +1,10 @@
 // src/Components/Contact/Contact.jsx
-import React, { useState } from 'react';
-
+import React, { useState } from "react";
+const apiBase = import.meta.env.VITE_API_URL;
 function Contact() {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [comments, setComments] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [comments, setComments] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const maxChars = 400;
   const charCount = comments.length;
@@ -14,10 +14,10 @@ function Contact() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/contact', {
-        method: 'POST',
+      const response = await fetch(`${apiBase}/contact`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           // Optional: Uncomment if you add auth to the endpoint
           // 'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`,
         },
@@ -25,16 +25,16 @@ function Contact() {
       });
 
       if (response.ok) {
-        alert('Votre message a été envoyé avec succès !');
-        setFullName('');
-        setEmail('');
-        setComments('');
+        alert("Votre message a été envoyé avec succès !");
+        setFullName("");
+        setEmail("");
+        setComments("");
       } else {
-        throw new Error('Échec de l\'envoi du message');
+        throw new Error("Échec de l'envoi du message");
       }
     } catch (error) {
-    console.error('Erreur lors de l\'envoi du message:', error);
-    alert('Échec de l\'envoi de votre message. Veuillez réessayer plus tard.');
+      console.error("Erreur lors de l'envoi du message:", error);
+      alert("Échec de l'envoi de votre message. Veuillez réessayer plus tard.");
     } finally {
       setIsSubmitting(false);
     }
@@ -54,8 +54,8 @@ function Contact() {
 
         {/* Subtitle / Description */}
         <p className="text-secondary text-center">
-          Recherchez des annonces immobilières à vendre et à louer. Explorez les valeurs des propriétés, 
-          les quartiers, et plus encore sur Darek.com
+          Recherchez des annonces immobilières à vendre et à louer. Explorez les
+          valeurs des propriétés, les quartiers, et plus encore sur Darek.com
         </p>
 
         {/* The Contact Form */}
@@ -63,7 +63,7 @@ function Contact() {
           <form
             onSubmit={handleSubmit}
             className="mt-4 w-100"
-            style={{ maxWidth: '600px' }}
+            style={{ maxWidth: "600px" }}
           >
             {/* Full Name */}
             <div className="mb-3 w-100">
@@ -122,10 +122,10 @@ function Contact() {
               <button
                 type="submit"
                 className="btn px-4"
-                style={{ backgroundColor: '#FF6600', color: '#fff' }}
+                style={{ backgroundColor: "#FF6600", color: "#fff" }}
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Envoi en cours...' : 'Envoyer'}
+                {isSubmitting ? "Envoi en cours..." : "Envoyer"}
               </button>
             </div>
           </form>

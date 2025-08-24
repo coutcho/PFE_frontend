@@ -1,13 +1,14 @@
-import { useState, useRef, useEffect } from 'react';
-import { format, addDays } from 'date-fns';
-import './ListingCSS.css';
-
+import { useState, useRef, useEffect } from "react";
+import { format, addDays } from "date-fns";
+import "./ListingCSS.css";
+const apiBase = import.meta.env.VITE_API_URL;
 function PropertyInquiryModal({ show, onClose, property, onInquirySubmitted }) {
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    message: 'Bonjour, je souhaiterais avoir plus d\'informations sur cette annonce.',
+    fullName: "",
+    email: "",
+    phone: "",
+    message:
+      "Bonjour, je souhaiterais avoir plus d'informations sur cette annonce.",
   });
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -17,8 +18,8 @@ function PropertyInquiryModal({ show, onClose, property, onInquirySubmitted }) {
   // Create a ref for the modal content
   const modalContentRef = useRef(null);
 
-  const token = localStorage.getItem('authToken');
-  const API_INQUIRIES_URL = 'http://localhost:3001/api/inquiries';
+  const token = localStorage.getItem("authToken");
+  const API_INQUIRIES_URL = `${apiBase}/inquiries`;
 
   // Effect to scroll to top when success state changes to true
   useEffect(() => {
@@ -36,28 +37,32 @@ function PropertyInquiryModal({ show, onClose, property, onInquirySubmitted }) {
   };
 
   const timeSlots = [
-    { time: '9:00 AM', label: 'Matin - 9:00' },
-    { time: '10:00 AM', label: 'Matin - 10:00' },
-    { time: '11:00 AM', label: 'Matin - 11:00' },
-    { time: '12:00 PM', label: 'Après-midi - 12:00' },
-    { time: '1:00 PM', label: 'Après-midi - 13:00' },
-    { time: '2:00 PM', label: 'Après-midi - 14:00' },
-    { time: '3:00 PM', label: 'Après-midi - 15:00' },
-    { time: '4:00 PM', label: 'Après-midi - 16:00' },
+    { time: "9:00 AM", label: "Matin - 9:00" },
+    { time: "10:00 AM", label: "Matin - 10:00" },
+    { time: "11:00 AM", label: "Matin - 11:00" },
+    { time: "12:00 PM", label: "Après-midi - 12:00" },
+    { time: "1:00 PM", label: "Après-midi - 13:00" },
+    { time: "2:00 PM", label: "Après-midi - 14:00" },
+    { time: "3:00 PM", label: "Après-midi - 15:00" },
+    { time: "4:00 PM", label: "Après-midi - 16:00" },
   ];
 
   const dateOptions = Array.from({ length: 7 }, (_, i) => {
     const date = addDays(new Date(), i);
     return {
       date,
-      formatted: format(date, 'MMM d'),
-      day: format(date, 'EEE'),
-      fullDate: format(date, 'EEEE, MMMM d, yyyy'),
+      formatted: format(date, "MMM d"),
+      day: format(date, "EEE"),
+      fullDate: format(date, "EEEE, MMMM d, yyyy"),
     };
   });
 
   const handleDateClick = (date) => {
-    setSelectedDate(selectedDate && format(selectedDate, 'MMM d') === format(date, 'MMM d') ? null : date);
+    setSelectedDate(
+      selectedDate && format(selectedDate, "MMM d") === format(date, "MMM d")
+        ? null
+        : date
+    );
   };
 
   const handleTimeClick = (time) => {
@@ -66,7 +71,7 @@ function PropertyInquiryModal({ show, onClose, property, onInquirySubmitted }) {
 
   const handleSubmit = async () => {
     if (!formData.fullName || !formData.email) {
-      setError('Nom complet et Email sont obligatoires.');
+      setError("Nom complet et Email sont obligatoires.");
       if (modalContentRef.current) {
         modalContentRef.current.scrollTop = 0;
       }
@@ -76,10 +81,10 @@ function PropertyInquiryModal({ show, onClose, property, onInquirySubmitted }) {
     // Construct the message with tour request details (if any)
     let finalMessage = formData.message;
     if (selectedDate && selectedTime) {
-      const formattedDate = format(selectedDate, 'EEEE, MMMM d, yyyy');
+      const formattedDate = format(selectedDate, "EEEE, MMMM d, yyyy");
       finalMessage += `\n\nDemande de visite: J'aimerais planifier une visite le ${formattedDate} à ${selectedTime}.`;
     } else if (selectedDate) {
-      const formattedDate = format(selectedDate, 'EEEE, MMMM d, yyyy');
+      const formattedDate = format(selectedDate, "EEEE, MMMM d, yyyy");
       finalMessage += `\n\nDemande de visite: J'aimerais planifier une visite le ${formattedDate}.`;
     }
 
@@ -90,16 +95,16 @@ function PropertyInquiryModal({ show, onClose, property, onInquirySubmitted }) {
       email: formData.email,
       phone: formData.phone || null,
       message: finalMessage, // Use the modified message with tour details
-      tour_date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : null,
+      tour_date: selectedDate ? format(selectedDate, "yyyy-MM-dd") : null,
       tour_time: selectedTime || null,
     };
 
     try {
       const response = await fetch(API_INQUIRIES_URL, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(inquiryData),
       });
@@ -126,7 +131,7 @@ function PropertyInquiryModal({ show, onClose, property, onInquirySubmitted }) {
     } catch (err) {
       setError(err.message);
       setSuccess(false);
-      console.error('Erreur lors de la soumission de la demande:', err);
+      console.error("Erreur lors de la soumission de la demande:", err);
       if (modalContentRef.current) {
         modalContentRef.current.scrollTop = 0;
       }
@@ -136,15 +141,26 @@ function PropertyInquiryModal({ show, onClose, property, onInquirySubmitted }) {
   if (!show) return null;
 
   return (
-    <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+    <div
+      className="modal show d-block"
+      style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+    >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content scrollable-content" ref={modalContentRef}>
           <div className="modal-header bg-light">
             <div>
-              <h5 className="modal-title">{property?.title || 'Titre de la propriété'}</h5>
-              <small className="text-muted">Planifier une visite ou demander des informations</small>
+              <h5 className="modal-title">
+                {property?.title || "Titre de la propriété"}
+              </h5>
+              <small className="text-muted">
+                Planifier une visite ou demander des informations
+              </small>
             </div>
-            <button type="button" className="btn-close" onClick={onClose}></button>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={onClose}
+            ></button>
           </div>
 
           <div className="modal-body">
@@ -224,7 +240,10 @@ function PropertyInquiryModal({ show, onClose, property, onInquirySubmitted }) {
                     <button
                       key={formatted}
                       className={`btn btn-outline-primary position-relative ${
-                        selectedDate && format(selectedDate, 'MMM d') === formatted ? 'active' : ''
+                        selectedDate &&
+                        format(selectedDate, "MMM d") === formatted
+                          ? "active"
+                          : ""
                       }`}
                       onClick={(e) => {
                         e.preventDefault();
@@ -245,7 +264,9 @@ function PropertyInquiryModal({ show, onClose, property, onInquirySubmitted }) {
                   {timeSlots.map(({ time, label }) => (
                     <div className="col-md-3" key={time}>
                       <button
-                        className={`btn btn-outline-primary w-100 ${selectedTime === time ? 'active' : ''}`}
+                        className={`btn btn-outline-primary w-100 ${
+                          selectedTime === time ? "active" : ""
+                        }`}
                         onClick={(e) => {
                           e.preventDefault();
                           handleTimeClick(time);
@@ -266,7 +287,7 @@ function PropertyInquiryModal({ show, onClose, property, onInquirySubmitted }) {
           <div className="modal-footer border-top">
             <button
               className="btn btn-warning w-100"
-              style={{ backgroundColor: '#fd7e14' }}
+              style={{ backgroundColor: "#fd7e14" }}
               onClick={(e) => {
                 e.preventDefault();
                 handleSubmit();

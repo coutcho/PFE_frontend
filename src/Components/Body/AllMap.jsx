@@ -93,7 +93,7 @@ const AllMap = ({ properties, selectedProperty }) => {
               <img
                 src={
                   property.images_path && property.images_path.length > 0
-                    ? `${apiBase}${property.images_path[0]}`
+                    ? `${apiBase.replace("/api", "")}${property.images_path[0]}`
                     : "https://via.placeholder.com/200x150"
                 }
                 alt={property.title || "Property Image"}

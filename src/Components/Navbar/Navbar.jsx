@@ -12,15 +12,18 @@ export default function Navbar() {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(!!localStorage.getItem("authToken"));
+  const [isSignedIn, setIsSignedIn] = useState(
+    !!localStorage.getItem("authToken")
+  );
   const [isAdmin, setIsAdmin] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const token = localStorage.getItem("authToken");
-  const API_INQUIRIES_URL = "http://localhost:3001/api/inquiries";
-  const API_USERS_URL = "http://localhost:3001/api/users";
+  const apiBase = import.meta.env.VITE_API_URL;
+  const API_INQUIRIES_URL = `${apiBase}/inquiries`;
+  const API_USERS_URL = `${apiBase}/users`;
   const socket = io("http://localhost:3001");
 
   useEffect(() => {
@@ -113,11 +116,11 @@ export default function Navbar() {
       const decoded = jwtDecode(token);
       setUserRole(decoded.role);
 
-      if (decoded.role === 'expert' || decoded.role === 'agent') {
-        navigate('/inbox');
+      if (decoded.role === "expert" || decoded.role === "agent") {
+        navigate("/inbox");
       } else {
         // navigate('/');
-         window.location.href = '/';
+        window.location.href = "/";
       }
     } catch (error) {
       console.error("Error decoding token:", error);
@@ -141,7 +144,7 @@ export default function Navbar() {
       setIsAdmin(false);
       setUserRole(null);
       setHasUnreadMessages(false);
-       window.location.href = '/'; // This reloads the whole page
+      window.location.href = "/"; // This reloads the whole page
       //navigate('/');
     } catch (error) {
       console.error("Error during logout:", error);
@@ -150,15 +153,16 @@ export default function Navbar() {
       setIsAdmin(false);
       setUserRole(null);
       setHasUnreadMessages(false);
-       window.location.href = '/'; // This reloads the whole page
+      window.location.href = "/"; // This reloads the whole page
       //navigate('/');
-
     }
   };
 
   return (
     <nav
-      className={`navbar navbar-expand-lg bg-white ${scrolled ? "scrolled" : ""}`}
+      className={`navbar navbar-expand-lg bg-white ${
+        scrolled ? "scrolled" : ""
+      }`}
       aria-label="Eleventh navbar example"
     >
       <div className="container-fluid">
@@ -178,11 +182,14 @@ export default function Navbar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarsExample09">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {!isSignedIn || (userRole !== 'expert' && userRole !== 'agent' && userRole !== 'admin') ? (
+            {!isSignedIn ||
+            (userRole !== "expert" &&
+              userRole !== "agent" &&
+              userRole !== "admin") ? (
               <>
                 <li className="nav-item">
                   <Link className="nav-link active" aria-current="page" to="/">
-                  Accueil
+                    Accueil
                   </Link>
                 </li>
                 <li className="nav-item dropdown">
@@ -264,7 +271,7 @@ export default function Navbar() {
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/about-us">
-                  À propos
+                    À propos
                   </Link>
                 </li>
                 <li className="nav-item">
@@ -294,8 +301,11 @@ export default function Navbar() {
                         className="bi bi-speedometer2"
                         viewBox="0 0 16 16"
                       >
-                        <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4M3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.39.39 0 0 0-.029-.518z"/>
-                        <path fillRule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.99 7.99 0 0 1 0 10m8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3"/>
+                        <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4M3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.39.39 0 0 0-.029-.518z" />
+                        <path
+                          fillRule="evenodd"
+                          d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.99 7.99 0 0 1 0 10m8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3"
+                        />
                       </svg>
                     </Link>
                   </>
@@ -316,7 +326,7 @@ export default function Navbar() {
                             Profile
                           </Link>
                         </li>
-                        {userRole !== 'expert' && userRole !== 'agent' && (
+                        {userRole !== "expert" && userRole !== "agent" && (
                           <li>
                             <Link className="dropdown-item" to="/favorites">
                               Mes Favoris

@@ -14,7 +14,7 @@ export function FavoritesProvider({ children }) {
       return;
     }
     try {
-      const response = await fetch(`${apiBase}/api/properties/favorites`, {
+      const response = await fetch(`${apiBase}/properties/favorites`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log("Fetch status:", response.status);
@@ -44,7 +44,7 @@ export function FavoritesProvider({ children }) {
     if (!token) return;
     console.log("Adding favorite:", property.id);
     try {
-      const response = await fetch(`${apiBase}/api/properties/favorites`, {
+      const response = await fetch(`${apiBase}/properties/favorites`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -71,7 +71,7 @@ export function FavoritesProvider({ children }) {
     console.log("Removing favorite:", propertyId);
     try {
       const response = await fetch(
-        `${apiBase}/api/properties/favorites/${propertyId}`,
+        `${apiBase}/properties/favorites/${propertyId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },

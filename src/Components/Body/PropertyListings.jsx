@@ -23,7 +23,7 @@ const PropertyListings = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          "http://localhost:3001/api/analytics/most-favorited-home",
+          `${apiBase}/analytics/most-favorited-home`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

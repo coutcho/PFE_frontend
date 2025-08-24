@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
-import { IMaskInput } from 'react-imask';
-import './ProfileCSS.css'
-
+import { useState, useEffect } from "react";
+import { IMaskInput } from "react-imask";
+import "./ProfileCSS.css";
+const apiBase = import.meta.env.VITE_API_URL;
 function Profile() {
   const [formData, setFormData] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    fullName: "",
+    phone: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [isFormModified, setIsFormModified] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,26 +25,26 @@ function Profile() {
       setSuccessMessage(null);
 
       try {
-        const response = await fetch('http://localhost:3001/api/users/me', {
+        const response = await fetch(`${apiBase}/users/me`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
         if (!response.ok) {
-          throw new Error('Failed to fetch user data');
+          throw new Error("Failed to fetch user data");
         }
 
         const userData = await response.json();
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
-          fullName: userData.fullname || '',
-          phone: userData.phone || '',
-          email: userData.email || ''
+          fullName: userData.fullname || "",
+          phone: userData.phone || "",
+          email: userData.email || "",
         }));
       } catch (error) {
-        console.error('Error fetching user data:', error);
-        setError('Échec du chargement des données de profil');
+        console.error("Error fetching user data:", error);
+        setError("Échec du chargement des données de profil");
       } finally {
         setIsLoading(false);
       }
@@ -55,9 +55,9 @@ function Profile() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
     setIsFormModified(true);
     // Effacer les messages lors de modifications
@@ -66,9 +66,9 @@ function Profile() {
   };
 
   const handlePhoneChange = (value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      phone: value
+      phone: value,
     }));
     setIsFormModified(true);
     // Effacer les messages lors de modifications
@@ -86,39 +86,41 @@ function Profile() {
       const updateData = {
         fullName: formData.fullName,
         phone: formData.phone,
-        email: formData.email
+        email: formData.email,
       };
 
       if (formData.password && formData.confirmPassword) {
         updateData.password = formData.password;
       }
 
-      const response = await fetch('http://localhost:3001/api/users/me', {
-        method: 'PUT',
+      const response = await fetch(`${apiBase}/users/me`, {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(updateData),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Échec de la mise à jour du profil');
+        throw new Error(
+          errorData.message || "Échec de la mise à jour du profil"
+        );
       }
 
-      console.log('Profile updated successfully');
-      setSuccessMessage('Profil mis à jour avec succès !');
+      console.log("Profile updated successfully");
+      setSuccessMessage("Profil mis à jour avec succès !");
       setIsFormModified(false);
-      
+
       // Effacer les champs de mot de passe après une mise à jour réussie
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        password: '',
-        confirmPassword: ''
+        password: "",
+        confirmPassword: "",
       }));
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error("Error updating profile:", error);
       setError(error.message);
     } finally {
       setIsLoading(false);
@@ -126,10 +128,12 @@ function Profile() {
   };
 
   const isPasswordUpdateValid = () => {
-    return (!formData.password && !formData.confirmPassword) || 
-           (formData.password && 
-            formData.confirmPassword && 
-            formData.password === formData.confirmPassword);
+    return (
+      (!formData.password && !formData.confirmPassword) ||
+      (formData.password &&
+        formData.confirmPassword &&
+        formData.password === formData.confirmPassword)
+    );
   };
 
   return (
@@ -137,9 +141,7 @@ function Profile() {
       <div className="profile-sidebar">
         <h1 className="profile-sidebar-title">Paramètres du Compte</h1>
         <nav className="nav flex-column">
-          <div className="profile-nav-link active">
-            Paramètres du Profil
-          </div>
+          <div className="profile-nav-link active">Paramètres du Profil</div>
         </nav>
       </div>
 
@@ -148,10 +150,14 @@ function Profile() {
           <h2 className="profile-page-title">Paramètres du Profil</h2>
           {isLoading && <div className="alert alert-info">Chargement...</div>}
           {error && <div className="alert alert-danger">{error}</div>}
-          {successMessage && <div className="alert alert-success">{successMessage}</div>}
+          {successMessage && (
+            <div className="alert alert-success">{successMessage}</div>
+          )}
           <form onSubmit={handleSave} className="profile-form">
             <div className="mb-4">
-              <label htmlFor="fullName" className="form-label">Nom Complet</label>
+              <label htmlFor="fullName" className="form-label">
+                Nom Complet
+              </label>
               <input
                 type="text"
                 className="form-control"
@@ -166,7 +172,9 @@ function Profile() {
 
             <div className="row">
               <div className="col-md-6 mb-4">
-                <label htmlFor="phone" className="form-label">Téléphone</label>
+                <label htmlFor="phone" className="form-label">
+                  Téléphone
+                </label>
                 <IMaskInput
                   className="form-control"
                   id="phone"
@@ -179,7 +187,9 @@ function Profile() {
                 />
               </div>
               <div className="col-md-6 mb-4">
-                <label htmlFor="email" className="form-label">Email</label>
+                <label htmlFor="email" className="form-label">
+                  Email
+                </label>
                 <input
                   type="email"
                   className="form-control"
@@ -195,7 +205,9 @@ function Profile() {
 
             <div className="row">
               <div className="col-md-6 mb-4">
-                <label htmlFor="password" className="form-label">Nouveau Mot de Passe</label>
+                <label htmlFor="password" className="form-label">
+                  Nouveau Mot de Passe
+                </label>
                 <input
                   type="password"
                   className="form-control"
@@ -208,7 +220,9 @@ function Profile() {
                 />
               </div>
               <div className="col-md-6 mb-4">
-                <label htmlFor="confirmPassword" className="form-label">Confirmer le Mot de Passe</label>
+                <label htmlFor="confirmPassword" className="form-label">
+                  Confirmer le Mot de Passe
+                </label>
                 <input
                   type="password"
                   className="form-control"
@@ -222,12 +236,16 @@ function Profile() {
               </div>
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn btn-primary"
-              disabled={!isFormModified || !isPasswordUpdateValid() || isLoading}
+              disabled={
+                !isFormModified || !isPasswordUpdateValid() || isLoading
+              }
             >
-              {isLoading ? 'Enregistrement...' : 'Enregistrer les Modifications'}
+              {isLoading
+                ? "Enregistrement..."
+                : "Enregistrer les Modifications"}
             </button>
           </form>
         </div>

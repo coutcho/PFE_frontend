@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+const apiBase = import.meta.env.VITE_API_URL;
 function ForgotPasswordModal({ show, onClose, onBackToSignIn }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -24,7 +24,7 @@ function ForgotPasswordModal({ show, onClose, onBackToSignIn }) {
     }
 
     try {
-      const response = await fetch("http://localhost:3001/api/forgot-password", {
+      const response = await fetch(`${apiBase}/forgot-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,11 +37,15 @@ function ForgotPasswordModal({ show, onClose, onBackToSignIn }) {
       if (response.ok) {
         setIsSubmitted(true); // Show success UI
       } else {
-        setError(data.message || "Une erreur est survenue. Veuillez réessayer.");
+        setError(
+          data.message || "Une erreur est survenue. Veuillez réessayer."
+        );
       }
     } catch (error) {
       console.error("Error requesting password reset:", error);
-      setError("Erreur réseau. Veuillez vérifier votre connexion et réessayer.");
+      setError(
+        "Erreur réseau. Veuillez vérifier votre connexion et réessayer."
+      );
     }
   };
 
@@ -66,8 +70,8 @@ function ForgotPasswordModal({ show, onClose, onBackToSignIn }) {
                 <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <p className="text-muted">
-                      Entrez votre adresse email et nous vous enverrons des instructions pour
-                      réinitialiser votre mot de passe.
+                      Entrez votre adresse email et nous vous enverrons des
+                      instructions pour réinitialiser votre mot de passe.
                     </p>
                   </div>
                   <div className="mb-3">
@@ -111,13 +115,11 @@ function ForgotPasswordModal({ show, onClose, onBackToSignIn }) {
                   </div>
                   <h5 className="mb-3">Vérifiez votre email</h5>
                   <p className="text-muted mb-4">
-                    Nous avons envoyé les instructions de réinitialisation du mot de passe à :<br />
+                    Nous avons envoyé les instructions de réinitialisation du
+                    mot de passe à :<br />
                     <strong>{email}</strong>
                   </p>
-                  <button
-                    className="btn btn-primary"
-                    onClick={onBackToSignIn}
-                  >
+                  <button className="btn btn-primary" onClick={onBackToSignIn}>
                     Retour à la connexion
                   </button>
                 </div>
