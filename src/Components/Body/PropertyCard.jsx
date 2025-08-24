@@ -50,7 +50,7 @@ const PropertyCard = ({ property, onClick }) => {
     property.images_path &&
     Array.isArray(property.images_path) &&
     property.images_path.length > 0
-      ? getImageUrl(property.images_path[0])
+      ? property.images_path[0]
       : "https://via.placeholder.com/800";
 
   const toTitleCase = (str) => {
