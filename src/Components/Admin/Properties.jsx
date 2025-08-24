@@ -8,7 +8,7 @@ import {
   FaFilter,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { supabase } from "../supabase";
+import supabase from "../supabase";
 
 function Properties() {
   const [properties, setProperties] = useState([]);
