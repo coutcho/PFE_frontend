@@ -1,10 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
-import dotenv from "dotenv";
-dotenv.config();
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+if (!supabaseUrl || !supabaseKey) {
+  console.error(
+    "Supabase URL or anon key missing. Check .env or Netlify environment variables."
+  );
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 export default supabase;
