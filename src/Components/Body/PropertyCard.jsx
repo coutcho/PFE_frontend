@@ -10,13 +10,16 @@ import {
 } from "react-icons/fa";
 import { useFavorites } from "./FavoritesContext.jsx";
 const apiBase = import.meta.env.VITE_API_URL;
-const getImageUrl = (path) => {
-  if (!path) return "https://via.placeholder.com/200x150";
+const getImageUrl = (pathOrUrl) => {
+  if (!pathOrUrl) return "https://via.placeholder.com/200x150";
+
+  // If pathOrUrl is already a URL, return it directly
+  if (pathOrUrl.startsWith("http")) return pathOrUrl;
+
   return `${
     import.meta.env.VITE_SUPABASE_URL
-  }/storage/v1/object/public/property_images/${path}`;
+  }/storage/v1/object/public/property_images/${pathOrUrl}`;
 };
-
 const PropertyCard = ({ property, onClick }) => {
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
 
