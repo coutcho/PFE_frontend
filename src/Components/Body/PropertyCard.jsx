@@ -14,7 +14,7 @@ const getImageUrl = (path) => {
   if (!path) return "https://via.placeholder.com/200x150";
   return `${
     import.meta.env.VITE_SUPABASE_URL
-  }/storage/v1/object/public/property-images/${path}`;
+  }/storage/v1/object/public/property_images/${path}`;
 };
 
 const PropertyCard = ({ property, onClick }) => {
