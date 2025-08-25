@@ -46,11 +46,16 @@ function Properties() {
   const getSupabaseImageUrl = (path) => {
     if (!path) return "https://via.placeholder.com/200x150";
 
-    // Replace 'property-images' with your actual bucket name
-    return supabase.storage.from("property_images").getPublicUrl(path)
-      .publicURL;
-  };
+    // If it's already a full URL, just return it
+    if (path.startsWith("http")) {
+      return path;
+    }
 
+    const { data } = supabase.storage
+      .from("property_images")
+      .getPublicUrl(path);
+    return data?.publicUrl || "https://via.placeholder.com/200x150";
+  };
   // 获取状态类名
   const getStatusClass = (status) => {
     switch (status) {
@@ -241,7 +246,6 @@ function Properties() {
         name: `Image ${index + 1}`,
       }));
       setPreviewUrls(existingImagePreviews);
-      console.log(getSupabaseImageUrl(img));
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
