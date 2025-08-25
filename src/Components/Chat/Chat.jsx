@@ -623,14 +623,7 @@ function Chat({ refresh, onRefreshComplete }) {
                                 transition: "transform 0.2s",
                                 cursor: "pointer",
                               }}
-                              onClick={() =>
-                                handleImageClick(
-                                  `${import.meta.env.VITE_API_URL.replace(
-                                    "/api",
-                                    ""
-                                  )}${img}`
-                                )
-                              }
+                              onClick={() => handleImageClick(img)}
                               onMouseOver={(e) =>
                                 (e.currentTarget.style.transform =
                                   "scale(1.05)")
@@ -640,10 +633,7 @@ function Chat({ refresh, onRefreshComplete }) {
                               }
                             >
                               <img
-                                src={`${import.meta.env.VITE_API_URL.replace(
-                                  "/api",
-                                  ""
-                                )}${img}`}
+                                src={img}
                                 alt={`Image ${index + 1}`}
                                 style={{
                                   width: "120px",
@@ -850,20 +840,10 @@ function Chat({ refresh, onRefreshComplete }) {
                                             ? "180px"
                                             : "120px",
                                       }}
-                                      onClick={() =>
-                                        handleImageClick(
-                                          `${import.meta.env.VITE_API_URL.replace(
-                                            "/api",
-                                            ""
-                                          )}${img}`
-                                        )
-                                      }
+                                      onClick={() => handleImageClick(img)}
                                     >
                                       <img
-                                        src={`${import.meta.env.VITE_API_URL.replace(
-                                          "/api",
-                                          ""
-                                        )}${img}`}
+                                        src={img}
                                         alt={`Message Image ${index + 1}`}
                                         style={{
                                           width: "100%",
