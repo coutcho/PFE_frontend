@@ -60,7 +60,7 @@ const PropertyCard = ({ property, onClick }) => {
     property.images_path &&
     Array.isArray(property.images_path) &&
     property.images_path.length > 0
-      ? getImageUrl(property.images_path[0])
+      ? property.images_path[0]
       : "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800";
 
   return (
