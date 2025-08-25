@@ -226,7 +226,7 @@ function Properties() {
   const handleEdit = (property) => {
     console.log("Modification de la propriété:", property);
     console.log("Existing images before replace:", previewUrls);
-
+    console.log(getSupabaseImageUrl(img));
     setEditingProperty(property);
     setFeatures(Array.isArray(property.features) ? property.features : []);
     setSelectedImages([]);
