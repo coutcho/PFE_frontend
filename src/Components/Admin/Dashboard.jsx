@@ -197,7 +197,7 @@ const PendingListingsCarousel = ({
     currentListing.images_path &&
     Array.isArray(currentListing.images_path) &&
     currentListing.images_path.length > 0
-      ? getImageUrl(currentListing.images_path[0])
+      ? currentListing.images_path[0]
       : "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800";
 
   const handleStatusUpdate = async (propertyId, newStatus) => {

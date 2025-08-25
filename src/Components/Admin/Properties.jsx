@@ -225,6 +225,8 @@ function Properties() {
   // Handle Edit Button
   const handleEdit = (property) => {
     console.log("Modification de la propriété:", property);
+    console.log("Existing images before replace:", previewUrls);
+
     setEditingProperty(property);
     setFeatures(Array.isArray(property.features) ? property.features : []);
     setSelectedImages([]);
